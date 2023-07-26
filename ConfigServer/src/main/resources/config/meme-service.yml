@@ -1,0 +1,36 @@
+server:
+  port: 8080
+  wait-time-in-ms-when-sync-empty: 3000
+
+spring:
+  spring:
+    profiles:
+      active: native
+  data:
+      mongodb:
+        #uri: mongodb://admin:admin@127.0.0.1:27017/ebac?authSource=admin&retryWrites=true&w=majority
+        host: ${MONGODB_URL}
+        database: meme
+        auto-index-creation: true
+eureka:
+  instance:
+    hostname: ${DISCOVERY_HOST:localhost}
+    port: 9091
+  client:
+    registerWithEureka: true
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+application-version: 1.0
+application:
+  categoriaMemeService:
+    url: http://categoria-meme-service:8080
+    endpointConsultarCategoriaMeme: ${application.categoriaMemeService.url}/categoria
+  usuarioService:
+    url: http://usuario-service:8080
+    endpointConsultarCliente: ${application.usuarioService.url}/usuario/isCadastrado/{id}
