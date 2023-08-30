@@ -2,42 +2,30 @@ package com.samuel.meme.service;
 
 import java.util.Optional;
 
-import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Service;
 
+import com.samuel.meme.exceptions.EntidadeNaoEncontradaException;
 import com.samuel.meme.model.Usuario;
 import com.samuel.meme.repository.IUsuarioRepository;
 
 @Service
+@EnableMongoRepositories(basePackageClasses = IUsuarioRepository.class)
 public class UsuarioService {
     
-    private IUsuarioRepository usuarioRepository;
-    
+    private IUsuarioRepository usuarioRepository;    
 
     public UsuarioService(IUsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public Usuario cadastrarUsuario(@Valid Usuario usuario) {
+    public Usuario cadastrarUsuario(Usuario usuario) {
         return usuarioRepository.insert(usuario);
-    }
-
-    public Usuario atualizarUsuario(@Valid Usuario usuario) {
-        return usuarioRepository.save(usuario);
-    }
-
-    public Usuario buscarPorId(String id) {
-        return usuarioRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(
-                "Recurso não encontrado para o id informado"));        
-    }
-
-    public Page<Usuario> listarUsuarios(Pageable pageable) {
-        return usuarioRepository.findAll(pageable);
+    } 
+    
+    public Usuario atualizarUsuario(Usuario usuario) {
+    	return usuarioRepository.save(usuario);
     }
 
     public Boolean estaCadastrado(String id) {
@@ -46,6 +34,12 @@ public class UsuarioService {
     }
 
     public void removerUsuario(String id) {
-        usuarioRepository.deleteById(id);
+    	try {
+    		usuarioRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntidadeNaoEncontradaException(String.format(
+                    "Não existe um cadastro de usuario para o ID: %d", id));
+		} 
+        
     }
 }
