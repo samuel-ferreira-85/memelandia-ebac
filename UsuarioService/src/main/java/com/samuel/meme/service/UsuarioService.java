@@ -14,13 +14,13 @@ import com.samuel.meme.repository.IUsuarioRepository;
 @EnableMongoRepositories(basePackageClasses = IUsuarioRepository.class)
 public class UsuarioService {
     
-    private IUsuarioRepository usuarioRepository;    
-
+    private IUsuarioRepository usuarioRepository;   
+    
     public UsuarioService(IUsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
-    }
+		this.usuarioRepository = usuarioRepository;
+	}
 
-    public Usuario cadastrarUsuario(Usuario usuario) {
+	public Usuario cadastrarUsuario(Usuario usuario) {		
         return usuarioRepository.insert(usuario);
     } 
     

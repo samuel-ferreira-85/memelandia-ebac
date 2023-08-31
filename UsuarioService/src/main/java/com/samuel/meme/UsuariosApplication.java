@@ -8,7 +8,6 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @SpringBootApplication
 @EnableEurekaClient
 @RefreshScope
-//@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class UsuariosApplication {
 
 	public static void main(String[] args) {

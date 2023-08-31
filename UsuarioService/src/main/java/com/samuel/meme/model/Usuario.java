@@ -10,34 +10,27 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Document(collection = "usuario")
-//@Data
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Builder
 @Schema(name = "Usuario", description = "Usuario")
 public class Usuario implements Serializable {
-    
+
 	private static final long serialVersionUID = 1L;
 
-    @Schema(description = "Identificador único")
-    private String id;
+	@Schema(description = "Identificador único")
+	private String id;
 
 	@Schema(description = "Nome", minLength = 1, maxLength = 50, nullable = false)
-    private String nome;
+	private String nome;
 
 	@Indexed(unique = true, background = true)
 	@Schema(description = "E-mail", minLength = 1, maxLength = 50, nullable = false)
-    private String email;
+	private String email;
 
-    private Date dataCadastro;
-    
-    public Usuario() {
-	}
-
-	public Usuario(String nome, String email, Date dataCadastro) {
-		this.nome = nome;
-		this.email = email;
-		this.dataCadastro = dataCadastro;
+	private Date dataCadastro;
+	
+	public Usuario() { }
+	  
+	public Usuario(String nome, String email, Date dataCadastro) { 
+		this.nome = nome; this.email = email; this.dataCadastro = dataCadastro; 
 	}
 
 	public String getId() {
@@ -92,9 +85,6 @@ public class Usuario implements Serializable {
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + ", dataCadastro=" + dataCadastro + "]";
-	}
-	
-	
-    
-    
+	}	 
+
 }

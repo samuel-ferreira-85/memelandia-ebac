@@ -45,12 +45,13 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Busca um usuario pelo ID.")
-    public ResponseEntity<Object> buscaPorId(@PathVariable(value = "id", required = true) String id) {
+    public ResponseEntity<Usuario> buscaPorId(@PathVariable(value = "id", required = true) String id) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         
-        if (usuarioOptional.isPresent()) return ResponseEntity.ok(usuarioOptional.get());
+        if (usuarioOptional.isPresent()) 
+        	return ResponseEntity.ok(usuarioOptional.get());
         
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado.");
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("isCadastrado/{id}")
