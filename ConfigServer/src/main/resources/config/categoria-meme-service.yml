@@ -1,20 +1,19 @@
 server:
-  port: 8080
+  port: 8000
   wait-time-in-ms-when-sync-empty: 3000
-
 spring:
-  spring:
-    profiles:
-      active: native
+  profiles:
+    active: native
   data:
-      mongodb:
-        #uri: mongodb://admin:admin@127.0.0.1:27017/ebac?authSource=admin&retryWrites=true&w=majority
-        host: ${MONGODB_URL}
-        database: produto
-        auto-index-creation: true
+    mongodb:
+      uri: mongodb://admin:backend@127.0.0.1:27017/ebac?authSource=admin&retryWrites=true&w=majority
+        #uri: mongodb+srv://sam85avila:bRl4yO6pqQQlJOfW@cluster-samuel.gyzie4v.mongodb.net/?retryWrites=true&w=majority
+#        host: ${MONGODB_URL}
+      database: categoria_meme
+      auto-index-creation: true
 eureka:
   instance:
-    hostname: ${DISCOVERY_HOST:localhost}
+    hostname: localhost
     port: 9091
   client:
     registerWithEureka: true
@@ -26,5 +25,4 @@ management:
     web:
       exposure:
         include: "*"
-
 application-version: 1.0

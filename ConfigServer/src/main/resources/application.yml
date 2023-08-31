@@ -2,14 +2,14 @@ spring:
   application:
     name: config-server
   profiles:
-      active: native
+    active: native
   cloud:
-      config:
-          server:
-              native:
-                  search-locations  : classpath:/config
+    config:
+      server:
+        native:
+          search-locations: classpath:/config
 server:
   port: 8888
 endpoints:
-    restart:
-      enabled: true
+  restart:
+    enabled: true
