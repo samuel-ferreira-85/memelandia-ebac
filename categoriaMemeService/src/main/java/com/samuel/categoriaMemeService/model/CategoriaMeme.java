@@ -1,24 +1,17 @@
 package com.samuel.categoriaMemeService.model;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.Objects;
 
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Document(collection = "categoriaMeme")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Schema(name = "CategoriaMeme", description = "Categoria Meme")
 public class CategoriaMeme {
 
@@ -40,5 +33,76 @@ public class CategoriaMeme {
     private Date dataCadastro;
 
     @NotNull
-    private Usuario usuario;    
+    private Usuario usuario;  
+    
+    public CategoriaMeme() {
+	}
+
+	public CategoriaMeme(String id, @NotNull @Size(min = 1, max = 50) String nome,
+			@NotNull @Size(min = 1, max = 100) String descricao, @NotNull Date dataCadastro, 
+			@NotNull Usuario usuario) {
+		this.id = id;
+		this.nome = nome;
+		this.descricao = descricao;
+		this.dataCadastro = dataCadastro;
+		this.usuario = usuario;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public Date getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(Date dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CategoriaMeme other = (CategoriaMeme) obj;
+		return Objects.equals(id, other.id);
+	}   
+    
 }
