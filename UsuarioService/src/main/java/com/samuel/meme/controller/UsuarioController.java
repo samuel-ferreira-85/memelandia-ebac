@@ -1,8 +1,12 @@
 package com.samuel.meme.controller;
 
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.samuel.meme.dto.UsuarioDto;
 import com.samuel.meme.exceptions.EntidadeNaoEncontradaException;
 import com.samuel.meme.model.Usuario;
 import com.samuel.meme.repository.IUsuarioRepository;
@@ -60,28 +65,61 @@ public class UsuarioController {
     	return ResponseEntity.status(HttpStatus.OK).body(usuarioService.estaCadastrado(id));
     }
 
+//    @PostMapping
+//    @Operation(summary = "Cadastra um usuario.")
+//    public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
+//        return ResponseEntity.status(HttpStatus.CREATED)
+//        		.body(usuarioService.cadastrarUsuario(usuario));
+//    }
+    
     @PostMapping
-    @Operation(summary = "Cadastra um usuario.")
-    public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-        		.body(usuarioService.cadastrarUsuario(usuario));
+    public ResponseEntity<Object> cadastrar(@RequestBody @Valid UsuarioDto usuarioDto) {
+    	if (usuarioService.existsByEmail(usuarioDto.getEmail()))
+    		return ResponseEntity.status(HttpStatus.CONFLICT).body("Email já cadastrado.");
+    	
+    	var usuario = new Usuario();
+    	BeanUtils.copyProperties(usuarioDto, usuario);
+    	usuario.setDataCadastro(LocalDateTime.now(ZoneId.of("UTC")));
+    	
+    	return ResponseEntity.status(HttpStatus.CREATED)
+    			.body(usuarioService.cadastrarUsuario(usuario));
     }
-
+    
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza um usuario.")
     public ResponseEntity<Object> atualizar(@PathVariable String id,  
-    		@RequestBody Usuario usuario) {
+    		@RequestBody UsuarioDto usuarioDto) {
     	
-    	Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
-    	
+    	Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);    	
     	if (!usuarioOptional.isPresent()) 
     		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado");
     	
-        BeanUtils.copyProperties(usuario, usuarioOptional.get(), "id");
-                
+    	var usuario = new Usuario();    	
+    	
+        BeanUtils.copyProperties(usuarioDto, usuario);
+        usuario.setId(id);
+        usuario.setDataCadastro(usuarioOptional.get().getDataCadastro());
+        
     	return ResponseEntity.status(HttpStatus.OK)
-    			.body(usuarioService.atualizarUsuario(usuarioOptional.get()));
+    			.body(usuarioService.atualizarUsuario(usuario));
     }
+
+
+//    @PutMapping("/{id}")
+//    @Operation(summary = "Atualiza um usuario.")
+//    public ResponseEntity<Object> atualizar(@PathVariable String id,  
+//    		@RequestBody Usuario usuario) {
+//    	
+//    	Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+//    	
+//    	if (!usuarioOptional.isPresent()) 
+//    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado");
+//    	
+//        BeanUtils.copyProperties(usuario, usuarioOptional.get(), "id");
+//                
+//    	return ResponseEntity.status(HttpStatus.OK)
+//    			.body(usuarioService.atualizarUsuario(usuarioOptional.get()));
+//    }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Remove um usuario.")

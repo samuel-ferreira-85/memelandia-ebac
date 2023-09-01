@@ -7,5 +7,7 @@ import com.samuel.meme.model.Usuario;
 
 @Repository
 public interface IUsuarioRepository extends MongoRepository<Usuario, String> {
+	
+	Boolean existsByEmail(String email);
     
 }

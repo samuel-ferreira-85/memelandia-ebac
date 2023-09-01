@@ -20,6 +20,8 @@ import com.samuel.categoriaMemeService.model.CategoriaMeme;
 import com.samuel.categoriaMemeService.repository.ICategoriaRepository;
 import com.samuel.categoriaMemeService.service.CategoriaService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("categorias")
 public class CategoriaController {
@@ -33,12 +35,14 @@ public class CategoriaController {
 	}
 	
 	@GetMapping
+	@Operation(summary = "Busca uma página categorias.")
 	public ResponseEntity<List<CategoriaMeme>> listar() {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(categoriaRepository.findAll());
 	}
 	
 	@GetMapping("/{id}")
+	@Operation(summary = "Busca uma categoria pelo ID.")
 	public ResponseEntity<CategoriaMeme> buscarPorId(@PathVariable String id) {
 		Optional<CategoriaMeme> categoriaOptional = categoriaRepository.findById(id);
 		if (categoriaOptional.isPresent()) {
@@ -50,12 +54,14 @@ public class CategoriaController {
 	}
 	
 	@PostMapping
+	@Operation(summary = "Cadastra uma categoria.")
 	public ResponseEntity<CategoriaMeme> cadastrar(@RequestBody CategoriaMeme categoriaMeme) {
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(categoriaService.cadastrar(categoriaMeme));
 	}
 	
 	@PutMapping("{id}")
+	@Operation(summary = "Atualiza uma categoria.")
 	public ResponseEntity<Object> atualizar(@PathVariable String id,
 			@RequestBody CategoriaMeme categoriaMeme) {
 		
@@ -71,6 +77,7 @@ public class CategoriaController {
 	}
 	
 	@DeleteMapping("{id}")
+	@Operation(summary = "Remove uma categoria.")
 	public ResponseEntity<Object> remover(@PathVariable(value = "id", required = true) String id) {
         try {
         	categoriaService.remover(id);;
@@ -78,9 +85,6 @@ public class CategoriaController {
 		} catch (EntidadeNaoEncontradaException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}    	
-    }
-	
-	
-	
+    }	
 	
 }

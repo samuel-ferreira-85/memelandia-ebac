@@ -1,9 +1,14 @@
 package com.samuel.meme.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,21 +20,26 @@ public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
 	@Schema(description = "Identificador único")
 	private String id;
 
+	@NotNull
+	@Size(min = 1, max = 50)
 	@Schema(description = "Nome", minLength = 1, maxLength = 50, nullable = false)
 	private String nome;
 
+	@Email(message = "Email inválido.")
 	@Indexed(unique = true, background = true)
 	@Schema(description = "E-mail", minLength = 1, maxLength = 50, nullable = false)
 	private String email;
 
-	private Date dataCadastro;
+	@NotNull
+	private LocalDateTime dataCadastro;
 	
 	public Usuario() { }
 	  
-	public Usuario(String nome, String email, Date dataCadastro) { 
+	public Usuario(String nome, String email, LocalDateTime dataCadastro) { 
 		this.nome = nome; this.email = email; this.dataCadastro = dataCadastro; 
 	}
 
@@ -57,11 +67,11 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
-	public Date getDataCadastro() {
+	public LocalDateTime getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Date dataCadastro) {
+	public void setDataCadastro(LocalDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 

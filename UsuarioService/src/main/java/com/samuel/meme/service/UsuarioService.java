@@ -42,4 +42,8 @@ public class UsuarioService {
 		} 
         
     }
+
+	public boolean existsByEmail(String email) {
+		return usuarioRepository.existsByEmail(email);
+	}
 }
