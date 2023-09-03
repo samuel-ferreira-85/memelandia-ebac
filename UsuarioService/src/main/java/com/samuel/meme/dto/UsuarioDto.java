@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 public class UsuarioDto {
 	
 	@NotBlank
-	private String nome;
+	private String nome;	
 	
 	@NotBlank
 	@Email(message = "Email inválido.")

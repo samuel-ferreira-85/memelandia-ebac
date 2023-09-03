@@ -37,7 +37,6 @@ public class UsuarioController {
     private IUsuarioRepository usuarioRepository;    
 
     public UsuarioController(UsuarioService usuarioService, IUsuarioRepository usuarioRepository) {
-		super();
 		this.usuarioService = usuarioService;
 		this.usuarioRepository = usuarioRepository;
 	}
@@ -59,25 +58,13 @@ public class UsuarioController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("isCadastrado/{id}")
-    @Operation(summary = "Verifica se o usuario está cadastrado na base de dados.")
-    public ResponseEntity<Boolean> isCadastrado(@PathVariable(value = "id", required = true) String id) {
-    	return ResponseEntity.status(HttpStatus.OK).body(usuarioService.estaCadastrado(id));
-    }
-
-//    @PostMapping
-//    @Operation(summary = "Cadastra um usuario.")
-//    public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
-//        return ResponseEntity.status(HttpStatus.CREATED)
-//        		.body(usuarioService.cadastrarUsuario(usuario));
-//    }
-    
     @PostMapping
     public ResponseEntity<Object> cadastrar(@RequestBody @Valid UsuarioDto usuarioDto) {
     	if (usuarioService.existsByEmail(usuarioDto.getEmail()))
     		return ResponseEntity.status(HttpStatus.CONFLICT).body("Email já cadastrado.");
     	
     	var usuario = new Usuario();
+    	
     	BeanUtils.copyProperties(usuarioDto, usuario);
     	usuario.setDataCadastro(LocalDateTime.now(ZoneId.of("UTC")));
     	
@@ -104,22 +91,6 @@ public class UsuarioController {
     			.body(usuarioService.atualizarUsuario(usuario));
     }
 
-
-//    @PutMapping("/{id}")
-//    @Operation(summary = "Atualiza um usuario.")
-//    public ResponseEntity<Object> atualizar(@PathVariable String id,  
-//    		@RequestBody Usuario usuario) {
-//    	
-//    	Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
-//    	
-//    	if (!usuarioOptional.isPresent()) 
-//    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado");
-//    	
-//        BeanUtils.copyProperties(usuario, usuarioOptional.get(), "id");
-//                
-//    	return ResponseEntity.status(HttpStatus.OK)
-//    			.body(usuarioService.atualizarUsuario(usuarioOptional.get()));
-//    }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Remove um usuario.")

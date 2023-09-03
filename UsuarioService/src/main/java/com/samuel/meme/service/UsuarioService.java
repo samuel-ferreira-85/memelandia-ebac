@@ -1,7 +1,5 @@
 package com.samuel.meme.service;
 
-import java.util.Optional;
-
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Service;
@@ -28,10 +26,6 @@ public class UsuarioService {
     	return usuarioRepository.save(usuario);
     }
 
-    public Boolean estaCadastrado(String id) {
-        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
-        return usuarioOptional.isPresent() ? true : false;
-    }
 
     public void removerUsuario(String id) {
     	try {
