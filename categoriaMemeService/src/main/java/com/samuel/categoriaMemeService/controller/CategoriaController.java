@@ -3,6 +3,8 @@ package com.samuel.categoriaMemeService.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.samuel.categoriaMemeService.dto.CategoriaDto;
 import com.samuel.categoriaMemeService.exceptions.EntidadeNaoEncontradaException;
 import com.samuel.categoriaMemeService.model.CategoriaMeme;
 import com.samuel.categoriaMemeService.repository.ICategoriaRepository;
@@ -45,25 +48,27 @@ public class CategoriaController {
 	@Operation(summary = "Busca uma categoria pelo ID.")
 	public ResponseEntity<CategoriaMeme> buscarPorId(@PathVariable String id) {
 		Optional<CategoriaMeme> categoriaOptional = categoriaRepository.findById(id);
-		if (categoriaOptional.isPresent()) {
+		if (categoriaOptional.isPresent()) 
 			return ResponseEntity.status(HttpStatus.OK).body(categoriaOptional.get());
-		}
-		else {
-			return ResponseEntity.notFound().build();
-		}
+		
+		return ResponseEntity.notFound().build();
 	}
 	
 	@PostMapping
 	@Operation(summary = "Cadastra uma categoria.")
-	public ResponseEntity<CategoriaMeme> cadastrar(@RequestBody CategoriaMeme categoriaMeme) {
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(categoriaService.cadastrar(categoriaMeme));
-	}
+	public ResponseEntity<Object> cadastrar(@RequestBody @Valid CategoriaDto categoriaDto) {
+		try {
+			return ResponseEntity.status(HttpStatus.CREATED)
+					.body(categoriaService.cadastrar(categoriaDto));		
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não há usuário para o ID informado.");
+		}	
+	}	
 	
 	@PutMapping("{id}")
 	@Operation(summary = "Atualiza uma categoria.")
 	public ResponseEntity<Object> atualizar(@PathVariable String id,
-			@RequestBody CategoriaMeme categoriaMeme) {
+			@RequestBody CategoriaDto categoriaDto) {
 		
 		Optional<CategoriaMeme> categoriaOptional = categoriaRepository.findById(id);
 		
@@ -71,7 +76,8 @@ public class CategoriaController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND)
 					.body("Categoria não encontrada");
 		
-		BeanUtils.copyProperties(categoriaMeme, categoriaOptional.get(), "id", "usuario");
+		BeanUtils.copyProperties(categoriaDto, categoriaOptional.get(), "id", "usuario", "dataCadastro");
+		
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(categoriaService.atualizar(categoriaOptional.get()));
 	}

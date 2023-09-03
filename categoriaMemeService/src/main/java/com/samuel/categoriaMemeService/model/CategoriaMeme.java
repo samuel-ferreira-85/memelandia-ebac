@@ -1,9 +1,9 @@
 package com.samuel.categoriaMemeService.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
@@ -19,28 +19,27 @@ public class CategoriaMeme {
     @Schema(description = "Identificador único")
     private String id;
 
-    @NotNull
+    @NotBlank
 	@Size(min = 1, max = 50)
 	@Schema(description="Nome", nullable = false)
     private String nome;
 
-    @NotNull
+    @NotBlank
 	@Size(min = 1, max = 100)
 	@Schema(description="Descricao", nullable = false)
     private String descricao;
 
-    @NotNull
-    private Date dataCadastro;
+    @NotBlank
+    private LocalDateTime dataCadastro;
 
-    @NotNull
+    
     private Usuario usuario;  
     
     public CategoriaMeme() {
 	}
 
-	public CategoriaMeme(String id, @NotNull @Size(min = 1, max = 50) String nome,
-			@NotNull @Size(min = 1, max = 100) String descricao, @NotNull Date dataCadastro, 
-			@NotNull Usuario usuario) {
+	public CategoriaMeme(String id, String nome, String descricao, LocalDateTime dataCadastro, 
+			Usuario usuario) {
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
@@ -72,11 +71,11 @@ public class CategoriaMeme {
 		this.descricao = descricao;
 	}
 
-	public Date getDataCadastro() {
+	public LocalDateTime getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Date dataCadastro) {
+	public void setDataCadastro(LocalDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 
