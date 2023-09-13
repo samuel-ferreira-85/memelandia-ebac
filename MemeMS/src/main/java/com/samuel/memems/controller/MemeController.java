@@ -1,19 +1,22 @@
 package com.samuel.memems.controller;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
-
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.samuel.memems.dto.MemeDto;
 import com.samuel.memems.feign.CategoriaFeignClient;
 import com.samuel.memems.feign.UsuarioFeignClient;
 import com.samuel.memems.model.CategoriaMeme;
@@ -38,17 +41,31 @@ public class MemeController {
 		return ResponseEntity.status(OK).body(memeRepository.findAll());
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<Object> buscarPorId(@PathVariable String id) {
+		Optional<Meme> memeOptional = memeRepository.findById(id);
+		
+		if (!memeOptional.isPresent()) 
+			return ResponseEntity.status(NOT_FOUND).body("Meme não foi encontrado.");
+		
+		return ResponseEntity.status(OK).body(memeOptional.get());		
+	}
+	
 	@PostMapping
-	public ResponseEntity<Object> cadastrar(@RequestBody Meme meme) {
-		Usuario usuario = usuarioFeign.buscaPorId(meme.getUsuario().getId()).getBody();
-		CategoriaMeme categoria = categoriaFeign.buscarPorId(meme.getCategoria().getId()).getBody();
+	public ResponseEntity<Object> cadastrar(@RequestBody MemeDto memeDto) {
+		Usuario usuario = usuarioFeign.buscaPorId(memeDto.getUsuario().getId()).getBody();
+		CategoriaMeme categoria = categoriaFeign.buscarPorId(memeDto.getCategoria().getId()).getBody();
 		
-		if (usuario == null) return ResponseEntity.status(HttpStatus.NOT_FOUND)
-				.body("Usuario não encontrado para o ID inofrmado");
+		if (usuario == null) 
+			return ResponseEntity.status(NOT_FOUND).body("Usuario não encontrado para o ID inofrmado");
 		
-		if (categoria == null) return ResponseEntity.status(HttpStatus.NOT_FOUND)
-				.body("Categoria não encontrada para o ID informado");
+		if (categoria == null) 
+			return ResponseEntity.status(NOT_FOUND).body("Categoria não encontrada para o ID informado");
 		
+		Meme meme = new Meme();
+		
+		BeanUtils.copyProperties(memeDto, meme);
+		meme.setDataCadastro(LocalDateTime.now(ZoneId.of("UTC")));
 		meme.setUsuario(usuario);
 		meme.setCategoria(categoria);
 		

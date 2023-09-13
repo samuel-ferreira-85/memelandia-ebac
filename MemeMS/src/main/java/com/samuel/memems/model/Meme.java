@@ -1,6 +1,7 @@
 package com.samuel.memems.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
@@ -16,17 +17,20 @@ public class Meme implements Serializable {
 	private String nome;
 	private String descricao;
 	private String url;
+	private LocalDateTime dataCadastro;
 	private CategoriaMeme categoria;
 	private Usuario usuario;
 
 	public Meme() {
 	}
 
-	public Meme(String nome, String descricao, String url, CategoriaMeme categoria, Usuario usuario) {
+	public Meme(String nome, String descricao, String url, LocalDateTime dataCadastro,
+			CategoriaMeme categoria, Usuario usuario) {
 		super();
 		this.nome = nome;
 		this.descricao = descricao;
 		this.url = url;
+		this.dataCadastro = dataCadastro;
 		this.categoria = categoria;
 		this.usuario = usuario;
 	}	
@@ -77,6 +81,14 @@ public class Meme implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	
+	public LocalDateTime getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(LocalDateTime dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
 
 	@Override
