@@ -1,6 +1,6 @@
 spring:
   application:
-    name: categoria-meme-service      
+    name: categoria-meme-service
   cloud:
     config:
       uri: http://localhost:8888/

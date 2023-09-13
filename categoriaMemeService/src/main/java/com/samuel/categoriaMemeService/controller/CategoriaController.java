@@ -86,7 +86,7 @@ public class CategoriaController {
 	@Operation(summary = "Remove uma categoria.")
 	public ResponseEntity<Object> remover(@PathVariable(value = "id", required = true) String id) {
         try {
-        	categoriaService.remover(id);;
+        	categoriaService.remover(id);
         	return ResponseEntity.noContent().build();
 		} catch (EntidadeNaoEncontradaException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

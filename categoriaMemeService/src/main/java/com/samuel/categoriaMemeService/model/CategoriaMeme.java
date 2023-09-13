@@ -31,16 +31,13 @@ public class CategoriaMeme {
 
     @NotBlank
     private LocalDateTime dataCadastro;
-
     
     private Usuario usuario;  
     
     public CategoriaMeme() {
 	}
 
-	public CategoriaMeme(String id, String nome, String descricao, LocalDateTime dataCadastro, 
-			Usuario usuario) {
-		this.id = id;
+	public CategoriaMeme(String nome, String descricao, LocalDateTime dataCadastro, Usuario usuario) {
 		this.nome = nome;
 		this.descricao = descricao;
 		this.dataCadastro = dataCadastro;

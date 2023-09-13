@@ -2,10 +2,10 @@ package com.samuel.categoriaMemeService.service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Service;
 
@@ -58,12 +58,14 @@ public class CategoriaService {
     }
     
     public void remover(String id) {
-    	try {
-			categoriaRepository.deleteById(id);
-		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format(
-					"Não existe um cadastro de Categoria para o id: %d", id));
-		}
+    	
+    	Optional<CategoriaMeme> categoriaOptional = categoriaRepository.findById(id);
+    	
+    	if (categoriaOptional.isPresent()) {
+    		categoriaRepository.deleteById(categoriaOptional.get().getId());
+    	} else {
+    		throw new EntidadeNaoEncontradaException("Categoria não encontrada.");
+    	}
     }
     
 }

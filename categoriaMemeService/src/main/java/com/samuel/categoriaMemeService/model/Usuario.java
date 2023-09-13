@@ -1,35 +1,22 @@
 package com.samuel.categoriaMemeService.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class Usuario {
     
     private String id;
 
-    @NotNull
-	@Size(min = 1, max = 50)
     private String nome;
 
-    @NotNull
-	@Size(min = 1, max = 50)
-	@Email(message = "Email inválido.")
     private String email;
 
-    @NotNull
-    private Date dataCadastro;
+    private LocalDate dataCadastro;
     
     public Usuario() {
 	}
 
-	public Usuario(String id, @NotNull @Size(min = 1, max = 50) String nome,
-			@NotNull @Size(min = 1, max = 50) @Email(message = "Email inválido.") String email,
-			@NotNull Date dataCadastro) {
-		super();
+	public Usuario(String id, String nome, String email, LocalDate dataCadastro) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
@@ -60,11 +47,11 @@ public class Usuario {
 		this.email = email;
 	}
 
-	public Date getDataCadastro() {
+	public LocalDate getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Date dataCadastro) {
+	public void setDataCadastro(LocalDate dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 
