@@ -1,10 +1,14 @@
 package com.samuel.meme.dto;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-public class UsuarioDto {
+public class UsuarioDto implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@NotBlank
 	private String nome;	
 	
