@@ -12,8 +12,11 @@ public class GatewayConfig {
 	RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 		return builder.routes()
 				.route("usuarios", r -> r
-						.path("/usuarios")
-						.uri("http://localhost:8082/"))
+						.path("/usuarios/**")
+						.uri("http://localhost:8000"))
+				.route("categorias", r -> r
+						.path("/categorias/**")
+						.uri("http://localhost:8200"))
 				.build();
 	}
 }
