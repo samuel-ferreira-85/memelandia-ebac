@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: meme-ms
+#  cloud:
+#    config:
+#      uri: http://localhost:8888/
+  data:
+    mongodb:
+      uri: mongodb://admin:backend@127.0.0.1:27017/ebac?authSource=admin&retryWrites=true&w=majority
+      database: meme
+      auto-index-creation: true 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
