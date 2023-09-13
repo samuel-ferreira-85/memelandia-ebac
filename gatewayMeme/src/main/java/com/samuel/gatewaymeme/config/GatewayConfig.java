@@ -17,6 +17,9 @@ public class GatewayConfig {
 				.route("categorias", r -> r
 						.path("/categorias/**")
 						.uri("http://localhost:8200"))
+				.route("memes", r -> r
+						.path("/memes/**")
+						.uri("http://localhost:8100"))
 				.build();
 	}
 }
