@@ -1,5 +1,5 @@
 server:
-  port: 8000
+  port: 8200
   wait-time-in-ms-when-sync-empty: 3000
 spring:
   profiles:
@@ -7,14 +7,12 @@ spring:
   data:
     mongodb:
       uri: mongodb://admin:backend@127.0.0.1:27017/ebac?authSource=admin&retryWrites=true&w=majority
-        #uri: mongodb+srv://sam85avila:bRl4yO6pqQQlJOfW@cluster-samuel.gyzie4v.mongodb.net/?retryWrites=true&w=majority
-#        host: ${MONGODB_URL}
       database: categoria_meme
       auto-index-creation: true
 eureka:
   instance:
     hostname: localhost
-    port: 9091
+    port: 8761
   client:
     registerWithEureka: true
     fetchRegistry: false
