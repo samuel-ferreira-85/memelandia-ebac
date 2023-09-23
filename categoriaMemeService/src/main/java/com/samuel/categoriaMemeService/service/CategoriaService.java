@@ -2,7 +2,6 @@ package com.samuel.categoriaMemeService.service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.samuel.categoriaMemeService.dto.CategoriaDto;
 import com.samuel.categoriaMemeService.exceptions.EntidadeNaoEncontradaException;
+import com.samuel.categoriaMemeService.exceptions.FeignException;
 import com.samuel.categoriaMemeService.feign.UsuarioFeignClient;
 import com.samuel.categoriaMemeService.model.CategoriaMeme;
 import com.samuel.categoriaMemeService.model.Usuario;
 import com.samuel.categoriaMemeService.repository.ICategoriaRepository;
-import com.samuel.categoriaMemeService.exceptions.FeignException;
 
 
 @Service
@@ -30,8 +29,7 @@ public class CategoriaService {
     private UsuarioFeignClient usuarioFeignClient;	    
 
 	public CategoriaMeme cadastrar(CategoriaDto categoriaDto) {		
-		try {
-			Usuario usuario = usuarioFeignClient.buscaPorId(categoriaDto.getUsuario().getId()).getBody();    	
+			Usuario usuario = getUsuarioFeign(categoriaDto);    	
 	    	
 	    	var categoria = new CategoriaMeme();
     		
@@ -40,13 +38,20 @@ public class CategoriaService {
     		categoria.setDataCadastro(LocalDateTime.now(ZoneId.of("UTC")));
     		
     		return categoriaRepository.insert(categoria); 
+    }
+
+	private Usuario getUsuarioFeign(CategoriaDto categoriaDto) {
+		String id = categoriaDto.getUsuario().getId();
+		try {
+			Usuario usuario = usuarioFeignClient.buscaPorId(id);
+			return usuario;
 		} catch (Exception e) {
 			throw new FeignException(String.format(
 					"Não foi possível encontrar o usuário com o id: %s na chamada à API externa", 
     				categoriaDto.getUsuario().getId()));
-		}    	 	
-    	
-    }
+		}
+		
+	}
     
     public CategoriaMeme atualizar(CategoriaMeme categoriaMeme) {
     	return categoriaRepository.save(categoriaMeme);
@@ -63,4 +68,5 @@ public class CategoriaService {
 		        .orElseThrow(() -> new EntidadeNaoEncontradaException(
 		        		String.format(MSG_CATEGORIA_NOT_FOUND, id)));
 	}
+    
 }
