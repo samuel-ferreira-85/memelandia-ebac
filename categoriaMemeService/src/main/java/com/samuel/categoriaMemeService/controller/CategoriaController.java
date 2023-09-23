@@ -1,7 +1,8 @@
 package com.samuel.categoriaMemeService.controller;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.samuel.categoriaMemeService.dto.CategoriaDto;
@@ -46,51 +48,39 @@ public class CategoriaController {
 	
 	@GetMapping("/{id}")
 	@Operation(summary = "Busca uma categoria pelo ID.")
-	public ResponseEntity<CategoriaMeme> buscarPorId(@PathVariable String id) {
-		Optional<CategoriaMeme> categoriaOptional = categoriaRepository.findById(id);
-		if (categoriaOptional.isPresent()) 
-			return ResponseEntity.status(HttpStatus.OK).body(categoriaOptional.get());
+	public CategoriaMeme buscarPorId(@PathVariable String id) {
 		
-		return ResponseEntity.notFound().build();
+		return categoriaService.obterCategoria(id);
 	}
 	
 	@PostMapping
 	@Operation(summary = "Cadastra uma categoria.")
 	public ResponseEntity<Object> cadastrar(@RequestBody @Valid CategoriaDto categoriaDto) {
-		try {
-			return ResponseEntity.status(HttpStatus.CREATED)
-					.body(categoriaService.cadastrar(categoriaDto));		
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não há usuário para o ID informado.");
-		}	
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(categoriaService.cadastrar(categoriaDto));		
 	}	
 	
 	@PutMapping("{id}")
 	@Operation(summary = "Atualiza uma categoria.")
-	public ResponseEntity<Object> atualizar(@PathVariable String id,
+	public CategoriaMeme atualizar(@PathVariable String id,
 			@RequestBody CategoriaDto categoriaDto) {
-		
-		Optional<CategoriaMeme> categoriaOptional = categoriaRepository.findById(id);
-		
-		if (!categoriaOptional.isPresent()) 
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-					.body("Categoria não encontrada");
-		
-		BeanUtils.copyProperties(categoriaDto, categoriaOptional.get(), "id", "usuario", "dataCadastro");
-		
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(categoriaService.atualizar(categoriaOptional.get()));
+		try {
+			CategoriaMeme categoriaAtual = categoriaService.obterCategoria(id);
+			
+			BeanUtils.copyProperties(categoriaDto, categoriaAtual, "id", "usuario");
+			categoriaAtual.setDataCadastro(LocalDateTime.now(ZoneId.of("UTC")));
+			
+			return categoriaService.atualizar(categoriaAtual);
+		} catch (EntidadeNaoEncontradaException e) {
+			throw new EntidadeNaoEncontradaException(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("{id}")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@Operation(summary = "Remove uma categoria.")
-	public ResponseEntity<Object> remover(@PathVariable(value = "id", required = true) String id) {
-        try {
+	public void remover(@PathVariable(value = "id", required = true) String id) {
         	categoriaService.remover(id);
-        	return ResponseEntity.noContent().build();
-		} catch (EntidadeNaoEncontradaException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}    	
     }	
 	
 }

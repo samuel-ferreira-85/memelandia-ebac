@@ -15,12 +15,13 @@ import com.samuel.categoriaMemeService.feign.UsuarioFeignClient;
 import com.samuel.categoriaMemeService.model.CategoriaMeme;
 import com.samuel.categoriaMemeService.model.Usuario;
 import com.samuel.categoriaMemeService.repository.ICategoriaRepository;
+import com.samuel.categoriaMemeService.exceptions.FeignException;
 
-import feign.FeignException;
 
 @Service
 @EnableMongoRepositories(basePackageClasses = ICategoriaRepository.class)
 public class CategoriaService {
+	private static final String MSG_CATEGORIA_NOT_FOUND = "Não existe um cadastro de categoria para o ID: %s";
 
 	@Autowired
     private ICategoriaRepository categoriaRepository;
@@ -28,28 +29,22 @@ public class CategoriaService {
 	@Autowired
     private UsuarioFeignClient usuarioFeignClient;	    
 
-	public CategoriaMeme cadastrar(CategoriaDto categoriaDto) {
+	public CategoriaMeme cadastrar(CategoriaDto categoriaDto) {		
 		try {
 			Usuario usuario = usuarioFeignClient.buscaPorId(categoriaDto.getUsuario().getId()).getBody();    	
 	    	
-	    	if (usuario != null) {
-	    		var categoria = new CategoriaMeme();
-	    		
-	    		BeanUtils.copyProperties(categoriaDto, categoria);
-	    		categoria.setUsuario(usuario);
-	    		categoria.setDataCadastro(LocalDateTime.now(ZoneId.of("UTC")));
-	    		
-	    		return categoriaRepository.insert(categoria);    		
-	    	}
-	    	throw new EntidadeNaoEncontradaException(String.format(
-                    "Não existe um cadastro de Usuário para o id: %s",
-                    categoriaDto.getUsuario().getId()));
-	    	
-			} catch (FeignException.NotFound e) {
-				throw new EntidadeNaoEncontradaException(String.format(
-						"Não foi possível encontrar o Usuário com o id: %s na chamada à API externa", 
-	    				categoriaDto.getUsuario().getId()));
-			}    	 	
+	    	var categoria = new CategoriaMeme();
+    		
+    		BeanUtils.copyProperties(categoriaDto, categoria);
+    		categoria.setUsuario(usuario);
+    		categoria.setDataCadastro(LocalDateTime.now(ZoneId.of("UTC")));
+    		
+    		return categoriaRepository.insert(categoria); 
+		} catch (Exception e) {
+			throw new FeignException(String.format(
+					"Não foi possível encontrar o usuário com o id: %s na chamada à API externa", 
+    				categoriaDto.getUsuario().getId()));
+		}    	 	
     	
     }
     
@@ -58,14 +53,14 @@ public class CategoriaService {
     }
     
     public void remover(String id) {
+    	CategoriaMeme categoria = obterCategoria(id);
     	
-    	Optional<CategoriaMeme> categoriaOptional = categoriaRepository.findById(id);
-    	
-    	if (categoriaOptional.isPresent()) {
-    		categoriaRepository.deleteById(categoriaOptional.get().getId());
-    	} else {
-    		throw new EntidadeNaoEncontradaException("Categoria não encontrada.");
-    	}
+		categoriaRepository.delete(categoria);
     }
-    
+
+    public CategoriaMeme obterCategoria(String id) {
+		return categoriaRepository.findById(id)
+		        .orElseThrow(() -> new EntidadeNaoEncontradaException(
+		        		String.format(MSG_CATEGORIA_NOT_FOUND, id)));
+	}
 }
