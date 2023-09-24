@@ -10,6 +10,9 @@ import javax.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Document(collection = "categoriaMeme")
@@ -31,9 +34,11 @@ public class CategoriaMeme {
     private String descricao;
 
     @NotBlank
+    @Schema(description="Data do cadastro", nullable = false)
     private LocalDateTime dataCadastro;
     
     @NotNull
+    @JsonIgnore
     private Usuario usuario;  
     
     public CategoriaMeme() {
@@ -85,6 +90,11 @@ public class CategoriaMeme {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+	
+	@JsonProperty("usuarioId")
+	public String getUsuarioId() {
+        return usuario != null ? usuario.getId() : null;
+    }
 
 	@Override
 	public int hashCode() {
