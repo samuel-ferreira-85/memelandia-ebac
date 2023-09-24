@@ -30,6 +30,8 @@ import com.samuel.memems.model.Meme;
 import com.samuel.memems.repository.IMemeRepository;
 import com.samuel.memems.service.MemeService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("memes")
 public class MemeController {
@@ -40,21 +42,25 @@ public class MemeController {
 	private IMemeRepository memeRepository;
 
 	@GetMapping
+	@Operation(summary = "Busca uma página memes")
 	public ResponseEntity<List<Meme>> listar() {
 		return ResponseEntity.status(OK).body(memeRepository.findAll());
 	}
 
 	@GetMapping("/{id}")
+	@Operation(summary = "Busca um meme por ID")
 	public Meme buscarPorId(@PathVariable String id) {
 		return memeService.obterMeme(id);
 	}
 	
-	@GetMapping("/aleatorio")
+	@GetMapping("/meme-do-dia")
+	@Operation(summary = "Busca o meme do dia de forma aleatória")
 	public Meme buscarAleatoria() {		
 		return memeService.aleatorio();
 	}
 
 	@PostMapping
+	@Operation(summary = "Cadastra um meme")
 	public ResponseEntity<Object> cadastrar(
 			@RequestBody @Validated(value = Groups.CadastroMeme.class) MemeDto memeDto) {
 		return ResponseEntity.status(CREATED)
@@ -62,6 +68,7 @@ public class MemeController {
 	}
 
 	@PutMapping("/{id}")
+	@Operation(summary = "Atualiza um meme")
 	public Meme atualizar(@PathVariable String id, 
 			@RequestBody @Valid MemeDto memeDto) {
 
@@ -75,6 +82,7 @@ public class MemeController {
 
 	@DeleteMapping("{id}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	@Operation(summary = "Remove um meme")
 	public void deletar(@PathVariable String id) {				
 		memeService.remover(id);
 	}
