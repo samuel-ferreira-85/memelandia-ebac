@@ -4,10 +4,15 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import javax.validation.constraints.NotBlank;
+
+import com.samuel.memems.config.Groups;
+
 public class CategoriaMeme implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
+	@NotBlank(groups = Groups.CadastroMeme.class)
 	private String id;
 
     private String nome;

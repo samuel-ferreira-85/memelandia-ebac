@@ -1,14 +1,30 @@
 package com.samuel.memems.dto;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import com.samuel.memems.config.Groups;
 import com.samuel.memems.model.CategoriaMeme;
 import com.samuel.memems.model.Usuario;
 
 public class MemeDto {
 
+	@NotBlank(groups = Groups.CadastroMeme.class)
+	@NotBlank
 	private String nome;
+	@NotBlank(groups = Groups.CadastroMeme.class)
+	@NotBlank
 	private String descricao;
+	@NotBlank(groups = Groups.CadastroMeme.class)
+	@NotBlank
 	private String url;
+	
+	@Valid
+	@NotNull(groups = Groups.CadastroMeme.class)
 	private CategoriaMeme categoria;
+	@Valid
+	@NotNull(groups = Groups.CadastroMeme.class)
 	private Usuario usuario;
 
 	

@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,11 +18,21 @@ public class Meme implements Serializable {
 
 	@Id
 	private String id;
+	@NotBlank
 	private String nome;
+	@NotBlank
 	private String descricao;
+	@NotBlank
 	private String url;
+	
 	private LocalDateTime dataCadastro;
+	
+	@Valid
+	@NotNull
 	private CategoriaMeme categoria;
+	
+	@Valid
+	@NotNull
 	private Usuario usuario;
 
 	public Meme() {
