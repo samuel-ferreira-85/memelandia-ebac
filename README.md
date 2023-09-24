@@ -38,4 +38,4 @@ As entradas nas APIs são validadas com Bean Validation, garantindo a integridad
 ### Padrão DTO
 O Padrão DTO é implementado para melhor estruturar os dados transmitidos entre as camadas do sistema, tornando o código mais organizado e legível.
 
-#### O Projeto Memelandia está no caminho certo para se tornar uma referência em inovação e eficiência. Com uma arquitetura de microsserviços moderna e um conjunto de tecnologias de última geração, a Memelandia está pronta para continuar encantando os amantes de memes em todo o mundo, oferecendo uma experiência única e envolvente.
+O Projeto Memelandia está no caminho certo para se tornar uma referência em inovação e eficiência. Com uma arquitetura de microsserviços moderna e um conjunto de tecnologias de última geração, a Memelandia está pronta para continuar encantando os amantes de memes em todo o mundo, oferecendo uma experiência única e envolvente.
