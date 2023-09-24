@@ -22,6 +22,7 @@ public class MemeDto {
 	
 	@Valid
 	@NotNull(groups = Groups.CadastroMeme.class)
+	@NotNull
 	private CategoriaMeme categoria;
 	@Valid
 	@NotNull(groups = Groups.CadastroMeme.class)

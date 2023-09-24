@@ -11,26 +11,42 @@ import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @Document(collection = "meme")
+@Schema(name = "Meme", description = "Meme")
 public class Meme implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Schema(description = "Identificador único")
 	private String id;
+	
 	@NotBlank
+	@Schema(description="Nome", nullable = false)
 	private String nome;
+	
 	@NotBlank
+	@Schema(description="Descrição", nullable = false)
 	private String descricao;
+	
 	@NotBlank
+	@Schema(description="URL", nullable = false)
 	private String url;
 	
+	@Schema(description="Data do cadastro", nullable = false)
 	private LocalDateTime dataCadastro;
 	
+	@JsonIgnore
 	@Valid
 	@NotNull
 	private CategoriaMeme categoria;
 	
+	@JsonIgnore
 	@Valid
 	@NotNull
 	private Usuario usuario;
@@ -104,6 +120,16 @@ public class Meme implements Serializable {
 	public void setDataCadastro(LocalDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
+	
+	@JsonProperty("usuarioId")
+	public String getUsuarioId() {
+        return usuario != null ? usuario.getId() : null;
+    }
+	
+	@JsonProperty("categoriaId")
+	public String getCategoriaId() {
+        return categoria != null ? categoria.getId() : null;
+    }
 
 	@Override
 	public int hashCode() {
