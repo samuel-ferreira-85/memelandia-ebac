@@ -53,5 +53,6 @@ Os próximos passos do projeto são:
   * Implementação de novas features: O sistema será expandido com a implementação de novas features, como a possibilidade de usuários criarem seus próprios memes.
   * Melhoria do desempenho: O desempenho do sistema será melhorado através da otimização da comunicação entre os microsserviços.
   * Melhoria da segurança: O sistema será melhorado em termos de segurança, através da implementação de mecanismos de autenticação e autorização.
+  * Implantação: O sistema será implantado em um cluster Kubernetes.
 
 O Projeto Memelandia está no caminho certo para se tornar uma referência em inovação e eficiência. Com uma arquitetura de microsserviços moderna e um conjunto de tecnologias de última geração, a Memelandia está pronta para continuar encantando os amantes de memes em todo o mundo, oferecendo uma experiência única e envolvente.
