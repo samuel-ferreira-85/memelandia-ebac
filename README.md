@@ -1,7 +1,7 @@
-# Projeto Memelandia: Modernização com Arquitetura de Microsserviços
+# Projeto Memelandia: Projeto Final do Curso Especialista Bac-End Java da EBAC
 ![Diagrama Memelandia](diagrama-memelandia.png)
 
-O projeto **Memelandia** está em uma emocionante jornada de transformação, migrando de um sistema monolítico para uma arquitetura de microsserviços de última geração. Com a visão de se tornar a plataforma líder em compartilhamento de memes, o Memelandia está adotando tecnologias e práticas inovadoras para impulsionar sua evolução.
+O projeto Memelandia é um sistema de gerenciamento de memes que foi desenvolvido com arquitetura de microsserviços. O objetivo do projeto é a migração de um sistema monolítico para microsserviços, a fim de melhorar a escalabilidade, a disponibilidade e a manutenibilidade do sistema.
 
 ## Principais Aspectos do Projeto
 
@@ -37,5 +37,21 @@ As entradas nas APIs são validadas com Bean Validation, garantindo a integridad
 
 ### Padrão DTO
 O Padrão DTO é implementado para melhor estruturar os dados transmitidos entre as camadas do sistema, tornando o código mais organizado e legível.
+
+## Vantagens
+
+A migração do sistema para microsserviços trouxe as seguintes vantagens:
+
+  * Melhoria da escalabilidade: Os microsserviços podem ser escalados de forma independente, o que permite que o sistema atenda a um maior número de usuários.
+  * Melhoria da disponibilidade: Os microsserviços podem ser distribuídos em diferentes servidores, o que aumenta a disponibilidade do sistema.
+  * Facilidade de manutenção: Os microsserviços são independentes, o que facilita a manutenção do sistema.
+
+## Próximos passos
+
+Os próximos passos do projeto são:
+
+  * Implementação de novas features: O sistema será expandido com a implementação de novas features, como a possibilidade de usuários criarem seus próprios memes.
+  * Melhoria do desempenho: O desempenho do sistema será melhorado através da otimização da comunicação entre os microsserviços.
+  * Melhoria da segurança: O sistema será melhorado em termos de segurança, através da implementação de mecanismos de autenticação e autorização.
 
 O Projeto Memelandia está no caminho certo para se tornar uma referência em inovação e eficiência. Com uma arquitetura de microsserviços moderna e um conjunto de tecnologias de última geração, a Memelandia está pronta para continuar encantando os amantes de memes em todo o mundo, oferecendo uma experiência única e envolvente.
