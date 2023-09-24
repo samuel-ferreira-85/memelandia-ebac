@@ -50,7 +50,6 @@ A migração do sistema para microsserviços trouxe as seguintes vantagens:
 
 Os próximos passos do projeto são:
 
-  * Implementação de novas features: O sistema será expandido com a implementação de novas features, como a possibilidade de usuários criarem seus próprios memes.
   * Melhoria do desempenho: O desempenho do sistema será melhorado através da otimização da comunicação entre os microsserviços.
   * Melhoria da segurança: O sistema será melhorado em termos de segurança, através da implementação de mecanismos de autenticação e autorização.
   * Implantação: O sistema será implantado em um cluster Kubernetes.
