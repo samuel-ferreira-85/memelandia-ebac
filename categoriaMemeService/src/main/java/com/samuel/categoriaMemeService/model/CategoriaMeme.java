@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
@@ -32,6 +33,7 @@ public class CategoriaMeme {
     @NotBlank
     private LocalDateTime dataCadastro;
     
+    @NotNull
     private Usuario usuario;  
     
     public CategoriaMeme() {

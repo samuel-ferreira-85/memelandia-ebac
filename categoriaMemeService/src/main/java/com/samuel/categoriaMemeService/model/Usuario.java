@@ -3,10 +3,15 @@ package com.samuel.categoriaMemeService.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import javax.validation.constraints.NotBlank;
+
+import com.samuel.categoriaMemeService.config.Groups;
+
 public class Usuario {
     
+	@NotBlank(groups = Groups.CadastroCategoria.class)
     private String id;
-
+	
     private String nome;
 
     private String email;

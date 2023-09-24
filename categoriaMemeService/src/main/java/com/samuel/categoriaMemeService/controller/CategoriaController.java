@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.samuel.categoriaMemeService.config.Groups;
 import com.samuel.categoriaMemeService.dto.CategoriaDto;
 import com.samuel.categoriaMemeService.exceptions.EntidadeNaoEncontradaException;
 import com.samuel.categoriaMemeService.model.CategoriaMeme;
@@ -55,7 +57,8 @@ public class CategoriaController {
 	
 	@PostMapping
 	@Operation(summary = "Cadastra uma categoria.")
-	public ResponseEntity<Object> cadastrar(@RequestBody @Valid CategoriaDto categoriaDto) {
+	public ResponseEntity<Object> cadastrar(
+			@RequestBody @Validated(value = Groups.CadastroCategoria.class) CategoriaDto categoriaDto) {
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(categoriaService.cadastrar(categoriaDto));		
 	}	
@@ -63,7 +66,7 @@ public class CategoriaController {
 	@PutMapping("{id}")
 	@Operation(summary = "Atualiza uma categoria.")
 	public CategoriaMeme atualizar(@PathVariable String id,
-			@RequestBody CategoriaDto categoriaDto) {
+			@RequestBody @Valid CategoriaDto categoriaDto) {
 		try {
 			CategoriaMeme categoriaAtual = categoriaService.obterCategoria(id);
 			

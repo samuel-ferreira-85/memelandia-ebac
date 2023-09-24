@@ -1,17 +1,23 @@
 package com.samuel.categoriaMemeService.dto;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.samuel.categoriaMemeService.config.Groups;
 import com.samuel.categoriaMemeService.model.Usuario;
 
 public class CategoriaDto {
 
+	@NotBlank(groups = Groups.CadastroCategoria.class)
 	@NotBlank
 	private String nome;
+	@NotBlank(groups = Groups.CadastroCategoria.class)
 	@NotBlank
 	private String descricao;
-	@NotNull
+	
+	@Valid
+	@NotNull(groups = Groups.CadastroCategoria.class)
 	private Usuario usuario;
 	
 	public String getNome() {
