@@ -1,6 +1,5 @@
 # Projeto Memelandia: Modernização com Arquitetura de Microsserviços
-![Diagrama Memelandia](C:\Users\samue\OneDrive\Documentos\EBAC\BackEndJavaPro\projeto-final-backend-java\diagrama-memelandia.png
-)
+![Diagrama Memelandia](diagrama-memelandia.png)
 
 O projeto **Memelandia** está em uma emocionante jornada de transformação, migrando de um sistema monolítico para uma arquitetura de microsserviços de última geração. Com a visão de se tornar a plataforma líder em compartilhamento de memes, o Memelandia está adotando tecnologias e práticas inovadoras para impulsionar sua evolução.
 
