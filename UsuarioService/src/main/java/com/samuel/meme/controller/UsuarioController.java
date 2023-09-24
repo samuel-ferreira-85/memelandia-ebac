@@ -54,6 +54,7 @@ public class UsuarioController {
     }
 
     @PostMapping
+    @Operation(summary = "Cadastra um usuário.")
     public ResponseEntity<Object> cadastrar(@RequestBody @Valid UsuarioDto usuarioDto) {
     	if (usuarioService.existsByEmail(usuarioDto.getEmail()))
     		throw new EntidadeEmUsoException("Email já cadastrado.");
