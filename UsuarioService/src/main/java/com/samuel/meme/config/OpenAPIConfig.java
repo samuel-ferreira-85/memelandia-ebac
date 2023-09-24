@@ -13,7 +13,7 @@ import io.swagger.v3.oas.models.info.License;
 public class OpenAPIConfig {
 
 	@Bean
-	public OpenAPI customOpenAPI(@Value("${application-version}") String appVersion) {
+	OpenAPI customOpenAPI(@Value("${application-version}") String appVersion) {
 		return new OpenAPI()
 				          .info(new Info()
 				          .title("Serviço de usuários")

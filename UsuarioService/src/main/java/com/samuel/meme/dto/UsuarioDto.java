@@ -9,7 +9,7 @@ public class UsuarioDto implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	@NotBlank
+	@NotBlank()
 	private String nome;	
 	
 	@NotBlank

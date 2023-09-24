@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,7 +25,7 @@ public class Usuario implements Serializable {
 	@Schema(description = "Identificador único")
 	private String id;
 
-	@NotNull
+	@NotBlank
 	@Size(min = 1, max = 50)
 	@Schema(description = "Nome", minLength = 1, maxLength = 50, nullable = false)
 	private String nome;
@@ -37,7 +38,8 @@ public class Usuario implements Serializable {
 	@NotNull
 	private LocalDateTime dataCadastro;
 	
-	public Usuario() { }
+	public Usuario() {
+	}
 	  
 	public Usuario(String nome, String email, LocalDateTime dataCadastro) { 
 		this.nome = nome; this.email = email; this.dataCadastro = dataCadastro; 

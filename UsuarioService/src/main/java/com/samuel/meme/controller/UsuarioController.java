@@ -70,7 +70,7 @@ public class UsuarioController {
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza um usuario.")
     public ResponseEntity<Object> atualizar(@PathVariable String id,  
-    		@RequestBody UsuarioDto usuarioDto) {    	
+    		@RequestBody @Valid UsuarioDto usuarioDto) {    	
     	var usuarioOptional = usuarioService.obterUsuario(id);
     	
     	var usuario = new Usuario();    	
