@@ -87,7 +87,7 @@ Abra o Projeto Memelandia no Spring Tool Suite 4 e se atente para a ordem de sta
 
 Com a utilização do Postman:
 
-a) Cadastre um Usuário;
+**a) Cadastre um Usuário;**
 
 Crie um POST com a seguinte URL: localhost:8765/usuarios e no Body passe o o JSON:
 ``` 
@@ -109,14 +109,15 @@ A imagem a seguir mostra a requisição e a resposta no Postman:
 
 ![Diagrama Memelandia](img/01.png)
 
-b) Busque uma lista de Usuários;
+**b) Busque uma lista de Usuários;**
+
 Crie uma requisição do tipo GET com a URL: localhost:8765/usuarios que retornará o usuário cadastrado conforme a imagem a seguir:
 
 ![Diagrama Memelandia](img/02.png)
 
 O microsserviço de usuários também permite buscar um usuário por id, atualizar e remover usuários.
 
-c) Cadastre uma Categoria de Meme;
+**c) Cadastre uma Categoria de Meme;**
 
 Crie um POST na URL: localhost:8765/categorias com o Body com o seguite JSON:
 ``` 
@@ -134,7 +135,7 @@ Cadastramos os campos "nome" e "descricão" e no objeto usuario passamos o apena
 
 Da mesma forma como fizemos com o microsserviço de usuários, podemos fazer um GET na URL: localhost:8765/categorias para obtermos uma lista de categorias cadastradas.
 
-d) Cadastrando um Meme;
+**d) Cadastrando um Meme;**
 
 Crie um POST na URL: localhost:8765/memes com o body com o seguinte JSON:
 ``` 
@@ -150,7 +151,7 @@ Crie um POST na URL: localhost:8765/memes com o body com o seguinte JSON:
     }
 }
 ``` 
-Cadastramos os campos "nome" e "descricão" e os id dos objetos usuario e categoria que foram cadastrados anteriormente. A resposta desse post pode ser conferido na imagem a seguir:
+Cadastramos os campos "nome" e "descricão" e os IDs dos objetos usuario e categoria que foram cadastrados anteriormente. A resposta desse post pode ser conferido na imagem a seguir:
 
 ![Diagrama Memelandia](img/04.png)
 
